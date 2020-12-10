@@ -28,7 +28,27 @@ class matrix {
 		assert(i >= 0 && i < R);
 		return V[i];
 	}
-	matrix operator *(const matrix&P)
+	matrix operator + (const matrix &P) {
+		assert(R == P.R && C == P.C);
+		matrix<T> MT(R,C);
+		for (int i = 0; i < R; ++i) {
+			for (int j = 0; j < C; ++j) {
+				MT[i][j] = V[i][j] + P[i][j];
+			}
+		}
+		return MT;
+	}
+	matrix operator - (const matrix &P) {
+		assert(R == P.R && C == P.C);
+		matrix<T> MT(R,C);
+		for (int i = 0; i < R; ++i) {
+			for (int j = 0; j < C; ++j) {
+				MT[i][j] = V[i][j] - P[i][j];
+			}
+		}
+		return MT;
+	}
+	matrix operator *(const matrix &P)
 	{
 		assert(C == P.R);
 		matrix <T> MT(R, P.C);
@@ -43,6 +63,41 @@ class matrix {
 		}
 		return MT;
 	}
+	void operator += (matrix &P) {
+		assert(R == P.R && C == P.C);
+		for (int i = 0; i < R; ++i) {
+			for (int j = 0; j < C; ++j) {
+				V[i][j] += P[i][j]; 
+			}
+		}
+	}
+	void operator -= (matrix &P) {
+		assert(R == P.R && C == P.C);
+		for (int i = 0; i < R; ++i) {
+			for (int j = 0; j < C; ++j) {
+				V[i][j] -= P[i][j]; 
+			}
+		}
+	}
+	void operator *= (matrix &P) {
+		assert(C == P.R);
+		matrix<T> MT(R,P.C);
+		for (int i = 0;i < R; ++i) {
+			for (int j = 0;j < P.C; ++j) {
+				T sum = 0;
+				for (int it = 0; it < C; ++it) {
+					sum += (V[i][it] * P[it][j]);
+				}
+				MT[i][j] = sum;
+			}
+		}
+		V.resize(R, vector<T>(P.C));
+		for (int i = 0; i < R; ++i) {
+			for (int j = 0; j < P.C; ++j) {
+				V[i][j] = MT[i][j];
+			}
+		}
+	}
 	friend ostream& operator << (ostream &out,const matrix<T> &M) {
 		for (int i = 0; i < M.R; ++i, out << endl) {
 			for (int j = 0; j < M.C; ++j)
@@ -54,7 +109,8 @@ class matrix {
 };
 signed main() {
 			ios::sync_with_stdio(false); cin.tie(nullptr);
-			matrix<int> M1(4, 4,2), M2(4,4, 3);
-			cout << (M1 * M2);
+			matrix<int> M1(2, 3,2), M2(2,3, 3),MT(2, 2);
+			cout << M1 + M2;
+			cout << M1 - M2;
 			return 0;
 }
