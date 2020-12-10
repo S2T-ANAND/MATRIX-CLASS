@@ -28,6 +28,21 @@ class matrix {
 		assert(i >= 0 && i < R);
 		return V[i];
 	}
+	matrix operator *(const matrix&P)
+	{
+		assert(C == P.R);
+		matrix <T> MT(R, P.C);
+		for (int i = 0;i < R; ++i) {
+			for (int j = 0;j < P.C; ++j) {
+				T sum = 0;
+				for (int it = 0; it < C; ++it) {
+					sum += (V[i][it] * P[it][j]);
+				}
+				MT[i][j] = sum;
+			}
+		}
+		return MT;
+	}
 	friend ostream& operator << (ostream &out,const matrix<T> &M) {
 		for (int i = 0; i < M.R; ++i, out << endl) {
 			for (int j = 0; j < M.C; ++j)
@@ -39,12 +54,7 @@ class matrix {
 };
 signed main() {
 			ios::sync_with_stdio(false); cin.tie(nullptr);
-			matrix<string> M(4, 4,"stuti" );
-			cout << M;
+			matrix<int> M1(4, 4,2), M2(4,4, 3);
+			cout << (M1 * M2);
 			return 0;
 }
-/* check for
-    * TLE due to ll, array bounds
-    * special cases (n=0,1)
-    * DON'T GET STUCK ON ONE APPROACH
-*/
