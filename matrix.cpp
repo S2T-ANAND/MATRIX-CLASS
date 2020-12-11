@@ -1,4 +1,3 @@
-//matrix class project
 #include "bits/stdc++.h"
 using namespace std;
 template <typename T>
@@ -91,12 +90,29 @@ class matrix {
 				MT[i][j] = sum;
 			}
 		}
-		V.resize(R, vector<T>(P.C));
+		this -> R = MT.R;
+		this -> C = MT.C;
+		this -> V = MT.V;
+	}
+	//transpose 
+	matrix transpose() {
+		matrix <T> MT(C, R);
 		for (int i = 0; i < R; ++i) {
-			for (int j = 0; j < P.C; ++j) {
-				V[i][j] = MT[i][j];
+			for (int j = 0; j < C; ++j) {
+				MT[j][i] = 	V[i][j];
 			}
 		}
+		return MT;
+	}
+	//inplace transpose
+	void inplace_transpose(){
+		matrix<T> MT(C, R);
+		for (int i = 0; i < R; ++i)
+			for (int  j = 0; j < C; ++j)
+				MT[j][i] = V[i][j];
+		this -> R = MT.R;
+		this -> C = MT.C;
+		this -> V = MT.V;
 	}
 	friend ostream& operator << (ostream &out,const matrix<T> &M) {
 		for (int i = 0; i < M.R; ++i, out << endl) {
@@ -108,9 +124,10 @@ class matrix {
 
 };
 signed main() {
-			ios::sync_with_stdio(false); cin.tie(nullptr);
-			matrix<int> M1(2, 3,2), M2(2,3, 3),MT(2, 2);
-			cout << M1 + M2;
-			cout << M1 - M2;
-			return 0;
+	ios::sync_with_stdio(false); cin.tie(nullptr);
+	matrix<int> M1(3, 4,1), M2(4, 3, 3);
+    M1 *= M2;
+    M1.inplace_transpose();
+    cout << M1;
+	return 0;
 }
