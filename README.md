@@ -1,4 +1,4 @@
-# MATRIX DS FOR CP
+# MATRIX DS and INPUT OUTPUT OPERATOR OVERLOADED
  - This is an attempt to create matrix ds with important feature like multiplication,transpose,power,inverse etc.
  - Feel free to commit and extends its functionality.
  - Any suggestion to improve readability or time-complexity are welcome.
