@@ -2,8 +2,8 @@
 using namespace std;
 template <typename T>
 class matrix {
-	vector<vector<T>> V;
 	public :
+	vector<vector<T>> V;
 	int R = 0,C = 0; 
 	matrix(int r, int c,const T &x = 0) {
 		R = r; C = c;
@@ -62,7 +62,7 @@ class matrix {
 		}
 		return MT;
 	}
-	void operator += (matrix &P) {
+	void operator += (const matrix &P) {
 		assert(R == P.R && C == P.C);
 		for (int i = 0; i < R; ++i) {
 			for (int j = 0; j < C; ++j) {
@@ -70,7 +70,7 @@ class matrix {
 			}
 		}
 	}
-	void operator -= (matrix &P) {
+	void operator -= (const matrix &P) {
 		assert(R == P.R && C == P.C);
 		for (int i = 0; i < R; ++i) {
 			for (int j = 0; j < C; ++j) {
@@ -78,7 +78,7 @@ class matrix {
 			}
 		}
 	}
-	void operator *= (matrix &P) {
+	void operator *= (const matrix &P) {
 		assert(C == P.R);
 		matrix<T> MT(R,P.C);
 		for (int i = 0;i < R; ++i) {
@@ -114,6 +114,24 @@ class matrix {
 		this -> C = MT.C;
 		this -> V = MT.V;
 	}
+	//power
+	matrix power(int n) {
+		assert(R == C);
+		matrix <T> MT(R, C), ANS(R, C, 1);
+		for (int i = 0 ; i < R; ++i)
+			for (int j = 0; j < C; ++j)
+				MT[i][j] = V[i][j]; 
+		while (n >= 1) {
+			if (n & 1) {
+				(ANS) *= (MT);
+				--n;
+			} else {
+				(MT) *= (MT);
+				n >>= 1;
+			}
+		}
+		return ANS;
+	}
 	friend ostream& operator << (ostream &out,const matrix<T> &M) {
 		for (int i = 0; i < M.R; ++i, out << endl) {
 			for (int j = 0; j < M.C; ++j)
@@ -125,9 +143,8 @@ class matrix {
 };
 signed main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
-	matrix<int> M1(3, 4,1), M2(4, 3, 3);
-    M1 *= M2;
-    M1.inplace_transpose();
-    cout << M1;
+	matrix<int> M1(3, 3, 2);
+	M1 = M1.power(2);
+	cout << M1;
 	return 0;
 }
