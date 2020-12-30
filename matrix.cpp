@@ -5,7 +5,7 @@ class matrix {
 	public :
 	vector<vector<T>> V;
 	int R = 0,C = 0; 
-	matrix(int r, int c,const T &x = 0) {
+	matrix(int r, int c,const T &x = T()) {
 		R = r; C = c;
 		V.assign(R, vector<T>((C), x));
 	}
